@@ -1,0 +1,34 @@
+package board.controller;
+
+import java.util.Date;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import board.bean.BoardDTO;
+
+@RestController
+public class BoardController {
+	
+	public BoardController() {
+		System.out.println("BoardController 기본 생성자");
+	}
+	
+	@GetMapping(value="board/hello")
+	//@ResponseBody
+	public String hello(String name) {
+		return "안녕하세요 " + name + "님!!";
+	}
+	
+	@GetMapping(value="board/getBoard")
+	public BoardDTO getBoard() {
+		BoardDTO boardDTO = new BoardDTO();
+		boardDTO.setSeq(1);
+		boardDTO.setName("허균");
+		boardDTO.setSubject("홍길동전");
+		boardDTO.setContent("의로운 의적!!");
+		boardDTO.setLogtime(new Date());
+		
+		return boardDTO;
+	}
+}
