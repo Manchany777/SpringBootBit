@@ -5,4 +5,5 @@
     <fullyQualifiedTypeName name="board.bean.BoardDTO"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="user.bean.UserPaging"/>
 </qualifiedTypeNameHistroy>

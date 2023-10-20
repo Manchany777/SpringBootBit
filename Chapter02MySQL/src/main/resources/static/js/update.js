@@ -1,7 +1,7 @@
 $(function(){
 	$.ajax({  // 동적으로 중복여부 체크
 		type: 'post',
-		url: '/chapter06_web/user/getUser', // 이미 있는 getUser컬럼 사용
+		url: '/user/getUser', // 이미 있는 getUser컬럼 사용
 		data: 'id=' + $('#id').val(), 		// model에게 넘겨받은 id 파라미터를 getUser로 넘겨줌
 		dataType: 'json',  					// DTO객체니까 JSON타입으로
 		success: function(data){
@@ -35,11 +35,11 @@ $('#updateBtn').click(function(){
 	} else {
 		$.ajax({ 	// DB와 연결
 			type: 'post',
-			url: '/chapter06_web/user/update',
+			url: '/user/update',
 			data: $('#userUpdateForm').serialize(), // #writeForm안에 있는 모든 데이터(name,id,pwd)를 가지고 감
 			success: function(){
 				alert('회원정보 수정 완료');
-				location.href = '/chapter06_web/user/list?pg=' + $('#pg').val();
+				location.href = '/user/list?pg=' + $('#pg').val();
 			},
 			error: function(e){
 				console.log(e);

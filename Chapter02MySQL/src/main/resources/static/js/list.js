@@ -1,7 +1,7 @@
 $(function(){
 	$.ajax({
 		type: 'post',
-		url: '/chapter06_web/user/getUserList',
+		url: '/user/getUserList',
 		data: 'pg=' + $('#pg').val(),
 		dataType: 'json',
 		success: function(data){
@@ -36,7 +36,7 @@ $(function(){
 				//alert($(this).parent().prev().prop('tagName'));     // name태그의 태그 종류 출력
 				alert('이름 = ' + $(this).parent().prev().text()); // name값 출력
 				
-				location.href='/chapter06_web/user/userUpdateForm?id=' + $(this).text() + '&pg=' + $('#pg').val(); // 해당 주소로 넘겨받은 파라미터 값 출력
+				location.href='/user/userUpdateForm?id=' + $(this).text() + '&pg=' + $('#pg').val(); // 해당 주소로 넘겨받은 파라미터 값 출력
 			});
 		},
 		error: function(e){

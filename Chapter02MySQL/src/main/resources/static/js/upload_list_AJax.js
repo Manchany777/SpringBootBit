@@ -1,7 +1,7 @@
 $(function(){
 	$.ajax({
 		type: 'post',
-		url: '/chapter06_web/user/getUpload_list_AJax',
+		url: '/user/getUpload_list_AJax',
 		dataType: 'json',
 		success: function(data){
 			console.log(JSON.stringify(data)); // 현재 객체가 json형태로 바뀌었는지 확인

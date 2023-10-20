@@ -7,7 +7,7 @@ $(function(){
 			enctype: 'multipart/form-data',
 			processData : false, // false로 해야 변수=값&변수=값 이렇게 문자열로 전송이 안 됨
 			contentType : false,  // 이렇게 해야 multipart로 전송이 가능 
-			url: '/chapter06_web/user/upload_AJax',
+			url: '/user/upload_AJax',
 			data: formData, // FormData가 가져온 모든 정보를 formdata가 가져옴 (파일업로드는 serialize 사용 불가)
 			success: function(data){
 				alert(data); // 이 이미지가 실제로 태그 안으로 들어가야 함

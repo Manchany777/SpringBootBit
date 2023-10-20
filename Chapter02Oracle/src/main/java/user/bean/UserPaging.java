@@ -6,49 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Component // 빈으로 생성 (UserServiceImpl에서 Autowired하기 위해)
-//@Getter
-//@Setter
+@Getter
+@Setter
 public class UserPaging {
-	public int getCurrentPage() {
-		return currentPage;
-	}
-
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-	public int getPageBlock() {
-		return pageBlock;
-	}
-
-	public void setPageBlock(int pageBlock) {
-		this.pageBlock = pageBlock;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public int getTotalA() {
-		return totalA;
-	}
-
-	public void setTotalA(int totalA) {
-		this.totalA = totalA;
-	}
-
-	public StringBuffer getPagingHTML() {
-		return pagingHTML;
-	}
-
-	public void setPagingHTML(StringBuffer pagingHTML) {
-		this.pagingHTML = pagingHTML;
-	}
-
 	// 페이징 처리를 위한 변수들
 	private int currentPage; // 현재페이지
 	private int pageBlock;	 // [이전][1][2][3][다음] -> 일때 pageBlock은 3
