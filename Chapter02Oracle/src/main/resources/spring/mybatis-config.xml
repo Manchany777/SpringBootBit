@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- Connection Pool과 Mapper 설정을 스프링부트가 다 빼앗아 갔다...심지어 Alias 설정조차도 (이게 스프링과 부트의 차이) -->
+</configuration>
