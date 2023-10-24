@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
-platformState=1697676643944
+platformState=1697676644093
 quickStart=false
 tipsAndTricks=true
+unassociatedEditorStrategy=org.eclipse.epp.internal.mpc.ui.askMarketPlace
