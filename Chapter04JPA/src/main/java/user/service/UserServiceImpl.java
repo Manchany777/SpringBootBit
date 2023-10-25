@@ -7,10 +7,11 @@ import java.util.Optional;
 
 //import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import user.bean.UserDTO;
-import user.bean.UserPaging;
 import user.dao.UserDAO;
 
 @Service // @Component보단 이렇게 서비스하는 클래스라는 걸 명시적으로 지정하는 게 낫다
@@ -51,42 +52,12 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public Map<String, Object> getUserList(String pg) {
-		// 1페이지당 3개씩
-//		int endNum = Integer.parseInt(pg)*3;
-//		int startNum = endNum-3; // oracle : endNum-2;
-//		
-//		// myBatis는 하나씩밖에 못실어가기때문에 map을 보내야함
-//		Map<String, Integer> map = new HashMap<String, Integer>();
-//		map.put("startNum", startNum);
-//		map.put("endNum", endNum);
-		 
+	public Page<UserDTO> getUserList(Pageable pageable) {
 		// DB
-			// userDAO.getUserList(startNum, endNum); (x) - 이렇게 안 됨
-//		List<UserDTO> list = userDAO.getUserList(map);
-		List<UserDTO> list = userDAO.findAll(); // 페이징처리 없이 모든 데이터를 전부 가져옴
-		// DB에서 받아온걸 list로 담아오도록 설정
-		System.out.println(list); // 콘솔창에 list값 제대로 출력되는지 확인
-		
-		
-		// 페이징 처리
-//		int totalA = userDAO.getTotalA(); // 총 글수
-//
-//		UserPaging userPaging = new UserPaging(); // 하나씩 꺼내오기
-//
-//		userPaging.setCurrentPage(Integer.parseInt(pg));
-//		userPaging.setPageBlock(3);
-//		userPaging.setPageSize(3);
-//		userPaging.setTotalA(totalA);
-//
-//		userPaging.makePagingHTML(); // 메소드 호출
-		
+		Page<UserDTO> list = userDAO.findAll(pageable); // 페이징처리 없이 모든 데이터를 전부 가져옴
 		Map<String, Object> map2 = new HashMap<String, Object>();
-		map2.put("list", list);
-//		map2.put("userPaging", userPaging);
-	
 		
-		return map2;
+		return list;
 	}
 	
 	@Override
@@ -111,6 +82,32 @@ public class UserServiceImpl implements UserService {
 		// delete()는 findById() 수행하지 않고 바로 delete를 처리한다.
 		//userDAO.delete(id); (x)
 	}
+
+	@Override
+	public List<UserDTO> getUserSearchList(String columnName, String value) {
+		// select * from usertable where name like concat('%', value, '%')
+		 
+		// 쿼리 메소드 (둘 중 하나 쓰면 됨)
+		/*if(columnName.equals("name")) { // select * from usertable where name like concat('%', '치', '%')
+			return userDAO.findByNameContaining(value);
+		} else if(columnName.equals("id")) {// select * from usertable where id like concat('%', 'c', '%')
+			return userDAO.findByIdContaining(value);
+		} else {
+			return null;
+		}*/
+		/*
+		if(columnName.equals("name")) { // select * from usertable where name like concat('%', '치', '%')
+			return userDAO.findByNameContaining(value);
+		} else
+			return userDAO.findByIdContaining(value);*/
+		
+		
+		// @Query 어노테이션
+		if(columnName.equals("name")) { // select * from usertable where name like concat('%', '치', '%')
+			return userDAO.getUserSearchName(value); // 일반 메서드 (=사용자 메서드)
+		} else
+			return userDAO.getUserSearchId(value); // 일반 메서드 (=사용자 메서드)
+	}
 }
 
 
@@ -129,4 +126,31 @@ public class UserServiceImpl implements UserService {
 Optional 클래스란?
 - Optional이란 'null일 수도 있는 객체'를 감싸는 일종의 Wrapper 클래스이다.
 
+*/
+
+/*
+*****쿼리 메소드
+JPA에서 제공하는 CrudRepository, 또는 JpaRepository를 이용해서 기본적인 CRUD 기능을 수행했다.
+일반적으로 JPA를 이용해서 목록 기능을 구현할 때는 JPQL(Java Persistence Query Language)을 이용하면 된다.
+JPQL은 검색 대상이 테이블이 아닌 엔티티 라는 것만 제외하고는 기본 구조와 문법이 기존의 SQL과 유사하다.
+
+스프링 JPA에서는 복잡한 JPQL을 대신해서 처리할 수 있는 쿼리 메소드라는 기능을 제공한다.
+쿼리 메소드는 메소드의 이름으로 필요한 쿼리를 만들어주는 기능이다.
+
+쿼리 메소드를 작성할 때 엔티티 이름은 생략할 수 있다.
+현재 사용하는 Repository 인터페이스에서 선언된 타입 정보를 기준으로 자동 엔티티 이름이 적용된다.
+
+쿼리 메소드의 리턴 타입은 Page<T>, Slice<T>, List<T> 이며 모두 Collection<T> 타입이다.
+이 중에서 가장 많이 사용하는 것은 Page<T>, List<T>로서, 단순히 목록을 검색하려면 List<T>를 사용하고 페이징 처리를 하려면 Page<T>를 사용하면 된다.
+*/
+
+/*
+******@Query 어노테이션
+일반적인 쿼리는 지금까지 학습한 스프링 데이터 JPA의 쿼리 메소드만으로도 충분하다. 
+하지만 복잡한 쿼리를 사용하거나 연관관계에 기반한 조인 검색을 처리하기 위해서는 JPQL(Java Persistence Query Language)을 사용해야 한다. 
+또는 성능상 어쩔 수 없이 특정 데이터베이스에 종속적인 네이티브 쿼리를 사용해야하는 경우도 있다.
+
+JPQL은 일반적인 SQL과 유사한 문법을 가지고 있지만 검색 대상이 테이블이 아니라 영속성 컨텍스트에 등록된 엔티티이다.
+따라서 FROM 절에 엔티티 이름과 컬럼 대신 엔티티가 가지고 있는 변수를 조회하기 때문에
+SELECT나 WHERE 절에서 사용하는 변수 이름은 대소문자를 구분하여 정확하게 지정해야 한다.
 */

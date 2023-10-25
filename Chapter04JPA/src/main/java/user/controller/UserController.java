@@ -1,10 +1,13 @@
 package user.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,18 +60,18 @@ public class UserController {
 	// 페이징 처리
 	@GetMapping(value="list") 		// page값 아무것도 안떠도 된다. 단, 없을 땐 기본페이지는 1page를 보여준다.
 									// index.jsp에 <a href="/chapter06_web/user/list?pg=1">라고 안적어도 되도록
-	public String list(@RequestParam(required = false, defaultValue = "1") String pg, Model  model) {
-		
-		model.addAttribute("pg", pg);
-		
+	public String list(@RequestParam(required = false, defaultValue = "0") String page, Model  model) {
+		model.addAttribute("page", page);
 		return "/user/list";
 	}
 	
 	// 회원정보 조회
 	@PostMapping(value="getUserList")
 	@ResponseBody
-	public Map<String, Object> getUserList(@RequestParam String pg) {
-		return userService.getUserList(pg);
+	public Page<UserDTO> getUserList(
+				// page는 0부터 시작, 0이면 1페이지, 1이면 2페이지, ...
+				@PageableDefault(page=0, size=3, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
+		return userService.getUserList(pageable);
 	}
 	
 	// 회원수정 페이지
@@ -100,5 +103,14 @@ public class UserController {
 	@ResponseBody
 	public void delete(@RequestParam String id) { // 리턴값이 없을 뿐이지 보내는 내용은 객체이다.
 		userService.delete(id);
+	}
+	
+	@PostMapping(value="getUserSearchList")
+	@ResponseBody
+	public List<UserDTO> getUserSearchList(@RequestParam String columnName, @RequestParam String value) {
+	//public List<UserDTO> getUserSearchList(@RequestParam Map<String, String> map) {
+							// columnName, value을 이렇게 controller단에서 미리 묶을수도 있지만, 
+							// 어차피 Service단에서 다시 풀어야 하기에 여기선 그냥 따로 보냄
+		return userService.getUserSearchList(columnName, value);	
 	}
 }
