@@ -63,18 +63,22 @@ th, td {
 			<option value="name">이름</option>
 			<option value="id">아이디</option>
 		</select>
-		<input type="text" id="value">
+		<input type="text" id="value" value="${ param.value }">
 		<input type="button" id="searchListBtn" value="검색">
 	</form>
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script type="text/javascript" src="../js/list.js"></script>
 <script type="text/javascript" src="../js/searchList.js"></script>
+<script type="text/javascript" src="../js/list.js"></script>
 <script>
 function userPaging(page) {
+	var columnName = $('#columnName').val();  // 현재 값 가져오기
+    var value = $('#value').val();  // 현재 값 가져오기
+    console.log(columnName, value);
 	// BoardPaging에서 호출할 함수를 만듦
-	location.href = "/user/list?page=" + page;
+    alert('page : ' + page + ' columnName : ' + columnName + ' value : ' + value);
+    location.href = "/user/list?page=" + page + '&columnName=' + columnName + '&value=' + value;
 }
 </script>
 </body>

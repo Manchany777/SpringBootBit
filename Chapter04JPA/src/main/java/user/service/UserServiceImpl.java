@@ -55,7 +55,6 @@ public class UserServiceImpl implements UserService {
 	public Page<UserDTO> getUserList(Pageable pageable) {
 		// DB
 		Page<UserDTO> list = userDAO.findAll(pageable); // 페이징처리 없이 모든 데이터를 전부 가져옴
-		Map<String, Object> map2 = new HashMap<String, Object>();
 		
 		return list;
 	}
@@ -84,7 +83,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDTO> getUserSearchList(String columnName, String value) {
+	public Page<UserDTO> getUserSearchList(String columnName, String value, Pageable pageable) {
 		// select * from usertable where name like concat('%', value, '%')
 		 
 		// 쿼리 메소드 (둘 중 하나 쓰면 됨)
@@ -101,12 +100,23 @@ public class UserServiceImpl implements UserService {
 		} else
 			return userDAO.findByIdContaining(value);*/
 		
+		//Page<UserDTO> list = userDAO.findAll(pageable);
+		//System.out.println(list);
 		
 		// @Query 어노테이션
+		/*
 		if(columnName.equals("name")) { // select * from usertable where name like concat('%', '치', '%')
-			return userDAO.getUserSearchName(value); // 일반 메서드 (=사용자 메서드)
+			return userDAO.getUserSearchName(value, pageable); // 일반 메서드 (=사용자 메서드)
 		} else
-			return userDAO.getUserSearchId(value); // 일반 메서드 (=사용자 메서드)
+			return userDAO.getUserSearchId(value, pageable); // 일반 메서드 (=사용자 메서드)*/
+		
+		Page<UserDTO> resultPage;
+	    if (columnName.equals("name")) {
+	        resultPage = userDAO.getUserSearchName(value, pageable);
+	    } else {
+	        resultPage = userDAO.getUserSearchId(value, pageable);
+	    }
+	    return resultPage;
 	}
 }
 

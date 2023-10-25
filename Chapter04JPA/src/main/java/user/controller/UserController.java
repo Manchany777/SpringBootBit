@@ -76,9 +76,9 @@ public class UserController {
 	
 	// 회원수정 페이지
 	@GetMapping(value="userUpdateForm") // 요청시 부르는 것
-	public String userUpdateForm(@RequestParam String id, @RequestParam String pg, Model model) {
+	public String userUpdateForm(@RequestParam String id, @RequestParam String page, Model model) {
 		model.addAttribute("id", id); // userUpdateForm으로 id파라미터 값 옮기기 위하여
-		model.addAttribute("pg", pg);
+		model.addAttribute("page", page);
 		
 		return "/user/userUpdateForm"; // jsp 찾아가자
 	}
@@ -105,12 +105,14 @@ public class UserController {
 		userService.delete(id);
 	}
 	
+	// 회원정보 검색
 	@PostMapping(value="getUserSearchList")
 	@ResponseBody
-	public List<UserDTO> getUserSearchList(@RequestParam String columnName, @RequestParam String value) {
+	public Page<UserDTO> getUserSearchList(@RequestParam String columnName, @RequestParam String value,
+				@PageableDefault(page=0, size=3, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
 	//public List<UserDTO> getUserSearchList(@RequestParam Map<String, String> map) {
 							// columnName, value을 이렇게 controller단에서 미리 묶을수도 있지만, 
 							// 어차피 Service단에서 다시 풀어야 하기에 여기선 그냥 따로 보냄
-		return userService.getUserSearchList(columnName, value);	
+		return userService.getUserSearchList(columnName, value, pageable);	
 	}
 }

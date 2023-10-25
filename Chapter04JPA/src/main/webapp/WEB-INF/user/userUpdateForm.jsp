@@ -25,7 +25,7 @@ th, td {
 <!-- 반드시 result.do로 해줘야 한다. (result.jsp로 적으면 안 됨) -->
 <form id="userUpdateForm">
 
-<input type="text" id="pg" value="${pg}" >
+<input type="text" id="page" value="${page}" >
 
 <table border="1" cellspacing="0">
 	<tr>

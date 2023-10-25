@@ -1,4 +1,9 @@
 $(function(){
+	if ($('#value').val() != '') {
+		userPaging($('#page').val())
+		return;
+	} 
+	
 	$.ajax({
 		type: 'post',
 		url: '/user/getUserList',
@@ -31,16 +36,19 @@ $(function(){
 			//페이징 처리
 			//$('#userPagingDiv').html(data.userPaging.pagingHTML);
 			var pagingHTML = '';
+			var columnName = $('#columnName').val();
+   			var value = $('#value').val();
+			
 			for(var i=0; i<data.totalPages; i++){
 				//pagingHTML += i+1;  // 0부터 시작하므로 1페이지부터 시작하도록 하기위해 +1 추가
 				
 				if(i == $('#page').val()) { // currentPage 대신 $('#pg').val()으로 => pg를 page로 바꿈
 					// 둘 중 편한 방식으로 사용하면 됨
 					//pagingHTML += `<span id='currentPaging' onclick='userPaging(` + (i) + `)'>` + (i+1) + `</span>`;
-					pagingHTML += `<span id='currentPaging' onclick='userPaging(${i})'>${(i+1)}</span>`;
+					pagingHTML += `<span id='currentPaging' onclick='userPaging(${i},"${columnName}","${value}")'>${(i+1)}</span>`;
 				} else {
 					//pagingHTML+= `<span id='paging' onclick='userPaging(` + i + `)'>` + i + `</span>`;
-					pagingHTML += `<span id='paging' onclick='userPaging(${i})'>${(i+1)}</span>`;
+					pagingHTML += `<span id='paging' onclick='userPaging(${i},"${columnName}","${value}")'>${(i+1)}</span>`;
 				}
 			}//for
 			
@@ -53,7 +61,7 @@ $(function(){
 				alert('이름 = ' + $(this).parent().prev().text()); // name값 출력
 				
 				location.href='/user/userUpdateForm?id=' + $(this).text() + '&page=' + $('#page').val(); // 해당 주소로 넘겨받은 파라미터 값 출력*/
-			});
+			}); 
 		},
 		error: function(e){
 			console.log(e);
