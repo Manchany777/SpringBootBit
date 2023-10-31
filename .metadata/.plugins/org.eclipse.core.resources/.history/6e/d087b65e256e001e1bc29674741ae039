@@ -1,5 +1,0 @@
-#WebApplicationType
-spring.main.web-application-type=servlet
-
-#Server Setting
-servet.port=8090
