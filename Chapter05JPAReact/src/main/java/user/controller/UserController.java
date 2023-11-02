@@ -106,7 +106,7 @@ public class UserController {
 	public void update(@ModelAttribute UserDTO userDTO) { // 리턴값이 없을 뿐이지 보내는 내용은 객체이다.
 		System.out.println("컨트롤 단 =" + userDTO);
 		userService.update(userDTO);
-	}
+	} 
 	
 	// 회원정보 삭제
 	@DeleteMapping(path="delete")
