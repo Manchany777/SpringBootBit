@@ -8,7 +8,7 @@ const Index = () => {
             <hr/>
             <h4>
                 <p><Link to='/user/writeForm'>입력</Link></p>
-                <p><Link>출력</Link></p>
+                <p><Link to='/user/list'>출력</Link></p>
             </h4>
         </div>
     );
