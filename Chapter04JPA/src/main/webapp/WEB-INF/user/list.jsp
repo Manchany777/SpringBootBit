@@ -57,8 +57,8 @@ th, td {
 </table>
 <div id="userPagingDiv" style="width: 610px; text-align: center; margin-top: 10px;"></div>
 <br><br>
-<div style="">
-	<form id="searchListForm">
+<div style="width: 600px; text-align: center;">
+	<form id="searchListForm" style="width: 100px;">
 		<select id="columnName">
 			<option value="name">이름</option>
 			<option value="id">아이디</option>

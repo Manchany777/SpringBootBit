@@ -57,7 +57,8 @@ const UpdateForm = () => {
         // 첫 번째 방식
         /*
         if(sw === 1 && idDiv === '사용 가능') {
-            axios.put(`http://localhost:8080/user/update`, null, {
+            //axios.put(`http://localhost:8080/user/update`, null, {
+            axios.put(`/user/update`, null, {
                 params: {       // params라는 객체값으로 아래의 3개의 데이터를 객체로 넘겨줌
                     name: name, // key와 value의 값이 같으면 name 하나만 사용 가능
                     id: id,
@@ -72,7 +73,8 @@ const UpdateForm = () => {
         // 두 번째 방식
         
         if(sw === 1) {
-            axios.put(`http://localhost:8080/user/update`, null, {
+            //axios.put(`http://localhost:8080/user/update`, null, {
+            axios.put(`/user/update`, null, {
             //axios.put(`/user/update`, null, {
                 params: userDTO  // 데이터를 쥐고 있는 DTO를 보내는 방식
             }).then(
@@ -86,8 +88,8 @@ const UpdateForm = () => {
     const onDeleteSubmit =(e) => {
         e.preventDefault() // 페이지 못넘어가게 막음
 
-        axios.delete(`http://localhost:8080/user/delete?id=${userId}`)
-        //axios.delete(`/user/delete?id=${userId}`)
+        //axios.delete(`http://localhost:8080/user/delete?id=${userId}`)
+        axios.delete(`/user/delete?id=${userId}`)
             .then(
                 alert('회원정보를 삭제했습니다.'),
                 navigate('/user/list')

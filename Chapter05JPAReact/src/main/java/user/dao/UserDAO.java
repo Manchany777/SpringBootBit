@@ -32,9 +32,9 @@ public interface UserDAO extends JpaRepository<UserDTO, String> {
 	
 	// 파라미터 개수가 늘어나서 물음표 개수가 너무 많아지면 물음표가 무엇을 의미하는지 헷갈린다. 이럴 경우 물음표에 직접 이름을 적을 수 있다.
 	// 이때, :value는 String value가 아니라 @Param("value")의 이름을 따라감
-	@Query("select userDTO from UserDTO userDTO where userDTO.name like concat('%', :value, '%')") 
-	public Page<UserDTO> getUserSearchName(@Param("value") String value, Pageable pageable);
+	@Query("select userDTO from UserDTO userDTO where userDTO.name like concat('%', :keyword, '%')") 
+	public Page<UserDTO> getUserSearchName(@Param("keyword") String keyword, Pageable pageable);
 	
-	@Query("select userDTO from UserDTO userDTO where userDTO.id like concat('%', :value, '%')")
-	public Page<UserDTO> getUserSearchId(@Param("value") String value, Pageable pageable);
+	@Query("select userDTO from UserDTO userDTO where userDTO.id like concat('%', :keyword, '%')")
+	public Page<UserDTO> getUserSearchId(@Param("keyword") String keyword, Pageable pageable);
 }

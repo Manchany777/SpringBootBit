@@ -60,7 +60,8 @@ const WriteForm = () => {
         // 첫 번째 방식
         /*
         if(sw === 1 && idDiv === '사용 가능') {
-            axios.post('http://localhost:8080/user/write', null, {
+            //axios.post('http://localhost:8080/user/write', null, {
+            axios.post('/user/write', null, {
                 params: {       // params라는 객체값으로 아래의 3개의 데이터를 객체로 넘겨줌
                     name: name, // key와 value의 값이 같으면 name 하나만 사용 가능
                     id: id,
@@ -75,7 +76,8 @@ const WriteForm = () => {
         // 두 번째 방식
         
         if(sw === 1 && idDiv === '사용 가능') {
-            axios.post('http://localhost:8080/user/write', null, {
+            //axios.post('http://localhost:8080/user/write', null, {
+            axios.post('/user/write', null, {
                 params: userDTO  // 데이터를 쥐고 있는 DTO를 보내는 방식
             }).then(
                 alert('회원가입을 축하드립니다.'),

@@ -55,7 +55,8 @@ public class UserServiceImpl implements UserService {
 	public Page<UserDTO> getUserList(Pageable pageable) {
 		// DB
 		Page<UserDTO> list = userDAO.findAll(pageable); // 페이징처리 없이 모든 데이터를 전부 가져옴
-		
+		System.out.println("list : " + list); // 일반적인 list가 아니라 page라는 객체값의 list
+		System.out.println("list.getContent() : " + list.getContent()); // 페이지 안에 있는 객체의 내용을 보여줌
 		return list;
 	}
 	
@@ -83,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Page<UserDTO> getUserSearchList(String columnName, String value, Pageable pageable) {
+	public Page<UserDTO> getUserSearchList(String columnName, String keyword, Pageable pageable) {
 		// select * from usertable where name like concat('%', value, '%')
 		 
 		// 쿼리 메소드 (둘 중 하나 쓰면 됨)
@@ -112,9 +113,9 @@ public class UserServiceImpl implements UserService {
 		
 		Page<UserDTO> resultPage;
 	    if (columnName.equals("name")) {
-	        resultPage = userDAO.getUserSearchName(value, pageable);
+	        resultPage = userDAO.getUserSearchName(keyword, pageable);
 	    } else {
-	        resultPage = userDAO.getUserSearchId(value, pageable);
+	        resultPage = userDAO.getUserSearchId(keyword, pageable);
 	    }
 	    return resultPage;
 	}

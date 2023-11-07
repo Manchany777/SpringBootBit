@@ -5,6 +5,7 @@ import Index from './main/Index';
 import WriteForm from './user/WriteForm';
 import List from './user/List';
 import UpdateForm from './user/UpdateForm';
+import UploadForm from './user/UploadForm';
 
 function App() {
   return (
@@ -22,10 +23,14 @@ function App() {
 
           <Route path='/user'>
             <Route path="writeform" element={ <WriteForm />} />
-            <Route path="list" element={ <List />} />
+
+            <Route path='list/:currentPage' element={ <List />} />
+
             <Route path="updateForm">
               <Route path=':userId' element={ <UpdateForm />}/>
             </Route>
+
+            <Route path="uploadForm" element={ <UploadForm />} />
           </Route>
         </Routes>
       </>

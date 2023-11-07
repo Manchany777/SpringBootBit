@@ -24,5 +24,5 @@ public interface UserService {
 	
 	public void delete(String id);
 
-	public Page<UserDTO> getUserSearchList(String columnName, String value, Pageable pageable);
+	public Page<UserDTO> getUserSearchList(String columnName, String keyword, Pageable pageable);
 }

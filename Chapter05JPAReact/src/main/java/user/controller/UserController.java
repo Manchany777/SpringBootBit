@@ -80,7 +80,9 @@ public class UserController {
 	public Page<UserDTO> getUserList(
 				// page는 0부터 시작, 0이면 1페이지, 1이면 2페이지, ...
 				@PageableDefault(page=0, size=3, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
-		return userService.getUserList(pageable);
+		Page<UserDTO> test = userService.getUserList(pageable);
+		System.out.println("controller getUserList : " + test);
+		return test;
 	}
 	
 	// 회원수정 페이지
@@ -115,12 +117,12 @@ public class UserController {
 	}
 	
 	// 회원정보 검색
-	@PostMapping(path="getUserSearchList")
-	public Page<UserDTO> getUserSearchList(@RequestParam String columnName, @RequestParam String value,
+	@GetMapping(path="getUserSearchList")
+	public Page<UserDTO> getUserSearchList(@RequestParam String columnName, @RequestParam String keyword,
 				@PageableDefault(page=0, size=3, sort="name", direction = Sort.Direction.DESC) Pageable pageable) {
 	//public List<UserDTO> getUserSearchList(@RequestParam Map<String, String> map) {
 							// columnName, value을 이렇게 controller단에서 미리 묶을수도 있지만, 
 							// 어차피 Service단에서 다시 풀어야 하기에 여기선 그냥 따로 보냄
-		return userService.getUserSearchList(columnName, value, pageable);	
+		return userService.getUserSearchList(columnName, keyword, pageable);	
 	}
 }
