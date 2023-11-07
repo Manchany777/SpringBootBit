@@ -31,7 +31,8 @@ const WriteForm = () => {
 
     // 아이디 중복체크
     const onIsExistId = () => {
-        axios.get(`http://localhost:8080/user/isExistId?id=${id}`) // 요청
+        //axios.get(`http://localhost:8080/user/isExistId?id=${id}`) // 요청
+        axios.get(`/user/isExistId?id=${id}`) // 요청
             .then(res => {
                 setIdDiv(res.data === 'non_exist' ? '사용 가능' : '사용 불가능')
             })   // 성공
@@ -81,7 +82,7 @@ const WriteForm = () => {
                 params: userDTO  // 데이터를 쥐고 있는 DTO를 보내는 방식
             }).then(
                 alert('회원가입을 축하드립니다.'),
-                navigate('/user/list')
+                navigate('/user/list/0')
             ).catch(error => console.log(error))
         }
     }

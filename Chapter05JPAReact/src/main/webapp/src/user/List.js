@@ -19,7 +19,7 @@ const List = () => {
     const navigate = useNavigate()
     
     //useEffect로 axios 통신해서 데이터를 끌고와서 결과를 setList한 후에, <div>에 data.map해서 화면에 뿌려준다.
-    // 1. useEffect() - zxios - DB에서 가져온 결과를 setList에 담는다.
+    // 1. useEffect() - axios - DB에서 가져온 결과를 setList에 담는다.
     // 2. list.map(_)으로 화면에 출력한다.
     useEffect(() => {
             keyword === '' ?
