@@ -6,6 +6,7 @@ import WriteForm from './user/WriteForm';
 import List from './user/List';
 import UpdateForm from './user/UpdateForm';
 import UploadForm from './user/UploadForm';
+import UploadList from './user/UploadList';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             </Route>
 
             <Route path="uploadForm" element={ <UploadForm />} />
+            <Route path="uploadList" element={ <UploadList />} />
           </Route>
         </Routes>
       </>

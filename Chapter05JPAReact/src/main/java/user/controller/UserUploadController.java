@@ -5,26 +5,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
 import user.bean.UserUploadDTO;
+import user.service.UserUploadService;
+import user.service.UserUploadServiceImpl;
 
 @CrossOrigin
 @RestController
 @RequestMapping(path="user")
 public class UserUploadController {
+	@Autowired
+	private UserUploadService userUploadService;
 	
-	@PostMapping(path="upload", produces = "application/json;charset=UTF-8")
-	public void upload(@ModelAttribute UserUploadDTO userUploadDTO,
-					   @RequestParam("img[]") List<MultipartFile> list, 
+	@PostMapping(path="upload", produces = "application/json;charset=UTF-8") // 한글 처리...but 그래도 깨진다??
+	public void upload(@RequestPart UserUploadDTO userUploadDTO,
+					   @RequestPart("img") List<MultipartFile> list, 
 					   HttpSession session) {
+		System.out.println("userUploadDTO : " + userUploadDTO);
+		System.out.println("list : " + list);
+		
 		// 실제 폴더
 		String filepath = session.getServletContext().getRealPath("/public/storage");
 		System.out.println("실제폴더 = " + filepath);
@@ -33,13 +41,12 @@ public class UserUploadController {
 		String originalFileName;
 		String fileName;
 		
-		
 		// 파일명만 모아서 DB로 보내기
 		List<UserUploadDTO> userImageList = new ArrayList<UserUploadDTO>();
 		
 		for(MultipartFile img : list) { // @RequestParam("img[]") List<MultipartFile> list의 list	
 			originalFileName = img.getOriginalFilename();
-			System.out.println(originalFileName);
+			System.out.println("originalFileName :" + originalFileName);
 			
 			// UUID 생성
 			//fileName = objectStorageService.uploadFile(bucketName, "storage/", img); 
@@ -70,7 +77,11 @@ public class UserUploadController {
 		System.out.println(userImageList);
 		
 		// DB
-		//userUploadService.upload(userImageList);
-
+		userUploadService.upload(userImageList);
+	}
+	
+	@GetMapping(path="uploadList")
+	public List<UserUploadDTO> uploadList() {
+		return userUploadService.uploadList();
 	}
 }

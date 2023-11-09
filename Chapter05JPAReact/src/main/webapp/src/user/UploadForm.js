@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from '../css/UploadForm.module.css';
 import mainImg from '../image/망상토끼.gif';
@@ -20,9 +20,11 @@ const UploadForm = () => {
 
     const {imageName, imageContent, imageFileName, imageOriginalName} = userUploadDTO
 
-    const [imageList,setImageList]  = useState([])
-    const [file,setFile]  = useState('')
-    const [showImgSrc,setShowImgSrc]  = useState([])
+    const [imageList,setImageList]  = useState([]) // 이미지 미리보기 용도
+    const [files,setFiles]  = useState('') // 이미지 서버로 전송
+    //const [showImgSrc,setShowImgSrc]  = useState([])
+
+    const navigate = useNavigate()
 
     // const readURL = (input) => {
     //     var reader = new FileReader();
@@ -40,15 +42,16 @@ const UploadForm = () => {
     }
 
     const onImgInput = (e) => {
-        const files = Array.from(e.target.files)
+        const imgFiles = Array.from(e.target.files)
         var imgArray = [] // 임시변수 (카메라 버튼 누를때마다 초기화 시키는 기능도 가지고 있음)
 
-        files.map(item => {  // 여기서 꺼낸 파일들을 imageList 담아야, imageList 담긴걸 아래에서 꺼내서 쓸 수가 있다.
+        imgFiles.map(item => {  // 여기서 꺼낸 파일들을 imageList 담아야, imageList 담긴걸 아래에서 꺼내서 쓸 수가 있다.
             const objectURL = URL.createObjectURL(item)
             imgArray.push(objectURL) // objectURL를 임시변수 imgArray에 차곡차곡 쌓기
         }) 
 
-        setImageList(imgArray) // 쌓아놓은 이미지 내용을, setImageList에 담기
+        setImageList(imgArray) // (미리보기용) 쌓아놓은 이미지 내용을, setImageList에 담기
+        setFiles(e.target.files) // (서버 업로드용) formData에 넣어서 서버로(스프링 부트) 보내기 용도
     }
     ///////////////////////////
 
@@ -56,15 +59,25 @@ const UploadForm = () => {
         e.preventDefault()
 
         var formData = new FormData()
-        formData.append('img[]', imageList) // 파일을 잡아와야 한다. imageList에 배열로 담은걸 'img[]'라는 배열변수명으로 formData 객체에 실음
-        formData.append('userUploadDTO', userUploadDTO) // 내가 적은 제목, 내용 등이 담긴 userUploadDTO도 객체에 실음
+        formData.append('userUploadDTO', new Blob([JSON.stringify(userUploadDTO)], { type: 'application/json'})) // 내가 적은 제목, 내용 등이 담긴 userUploadDTO도 객체에 실음
+        // (x) formData.append('img[]', imageList) // 파일을 잡아와야 한다. imageList에 배열로 담은걸 'img[]'라는 배열변수명으로 formData 객체에 실음
+        
+        // for(var i=0 ; i < files.length ; i++) {
+        //     formData.append('img',files[i])
+        // }
+        Object.values(files).map((item, index) => {
+            formData.append('img',item)
+        })
 
         axios.post('/user/upload', formData, {  // upload란 이름으로 서버에 요청을 보냄
-                headers: {     // ajax에서 했던 것처럼, headers로 아래 내용을 실어 보냄
+                headers: {     // HTTP 요청의 헤더 정보를 설정
                     'Content-Type' : 'multipart/form-data'
                 }
               })
-             .them(alert('이미지 업로드 완료'))
+             .then(res => {
+                alert('이미지 업로드 완료')
+                navigate('/use/uploadList')
+            })
              .catch(error => console.log(error))
     }
     ///////////////////////////
@@ -90,7 +103,7 @@ const UploadForm = () => {
         })
 
         setImageList([])
-        setShowImgSrc('')
+        //setShowImgSrc('')
         imgRef.current.value = ''
     }
 
