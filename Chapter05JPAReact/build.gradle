@@ -30,8 +30,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
-	// https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-aws-starter
-	implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.0.1'
+	// https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-starter-aws
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.561'
 }
 
