@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
 import user.bean.UserUploadDTO;
+import user.service.ObjectStorageService;
 import user.service.UserUploadService;
 import user.service.UserUploadServiceImpl;
 
@@ -25,6 +26,10 @@ import user.service.UserUploadServiceImpl;
 public class UserUploadController {
 	@Autowired
 	private UserUploadService userUploadService;
+	@Autowired
+	private ObjectStorageService objectStorageService;
+	
+	private String bucketName = "bitcamp-edu-bucket-112";  // 내가 발급받은 고유한 버킷 이름
 	
 	@PostMapping(path="upload", produces = "application/json;charset=UTF-8") // 한글 처리...but 그래도 깨진다??
 	public void upload(@RequestPart UserUploadDTO userUploadDTO,
@@ -49,9 +54,9 @@ public class UserUploadController {
 			System.out.println("originalFileName :" + originalFileName);
 			
 			// UUID 생성
-			//fileName = objectStorageService.uploadFile(bucketName, "storage/", img); 
+			fileName = objectStorageService.uploadFile(bucketName, "storage/", img); 
 			//  objectStorageService의 uploadFile에서 bucketName의 storage/에 있는 img를 가져와서 fileName에 담는다
-			fileName = "noname";
+			//fileName = "noname";
 			
 			file = new File(filepath, originalFileName);
 			
